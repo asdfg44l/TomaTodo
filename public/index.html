@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+    <title>vue-firebase</title>
+    <script src="https://kit.fontawesome.com/6a798fb718.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-database.js"></script>
+    <!--firebase-->
+    <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+        apiKey: "AIzaSyDryZ1zIIbDJxaXvpj_HshulYo5-wWASzg",
+        authDomain: "newtodo-34988.firebaseapp.com",
+        databaseURL: "https://newtodo-34988.firebaseio.com",
+        projectId: "newtodo-34988",
+        storageBucket: "",
+        messagingSenderId: "640972649156",
+        appId: "1:640972649156:web:d38dc9f8838d9c83"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+    </script>  
+  </head>
+  <body>
+    <noscript>
+      <strong>We're sorry but vue-firebase doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
+    </noscript>
+    <div id="app"></div>
+    <!-- built files will be auto injected -->
+  </body>
+</html>

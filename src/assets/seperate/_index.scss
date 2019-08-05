@@ -1,0 +1,35 @@
+
+.functionBtn{
+    color: #fff;
+    &:hover, &.active{
+        color: $tomaRed;
+        background-color: #fff;
+        border: 1px solid $lightRed;
+    }
+}
+.sideBox{
+    width: 50%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right:-42.5%;
+    transition: all .5s;
+    z-index: 20;
+    .controlBox{
+        width: 15%;
+        height: 100%;
+    }
+    .sideTable{
+        width: 85%;
+        height: 100%;
+    }   
+    &.active{
+        right:0;
+    }
+}
+
+// 待番茄完成後刪除
+.tomato{
+    height: 300px;
+    background-color: aqua
+}

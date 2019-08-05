@@ -1,0 +1,18 @@
+@import '~bootstrap/scss/functions';
+@import './helpers/variables';
+@import '~bootstrap/scss/bootstrap';
+
+@import './helpers/fontstyle.scss';
+@import './seperate/commonUse';
+
+// component
+@import './seperate/todoList.scss';
+@import './seperate/timer.scss';
+@import './seperate/Vcalendar.scss';
+@import './seperate/taskList.scss';
+// view
+@import './seperate/index.scss';
+
+body {
+    color: $primary;
+}

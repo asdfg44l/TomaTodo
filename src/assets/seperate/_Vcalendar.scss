@@ -1,0 +1,40 @@
+.Vcalendar{
+    .vc-popover-content-wrapper{
+        left: -100px !important;
+    }
+    .vc-header{
+        background-color: #DE7878;
+        padding: 0.6rem !important;
+    }
+    .vc-title{
+        color: $deepRed;
+    }
+    .vc-arrows-container{
+        .vc-cursor-pointer {
+            color: $deepRed;
+        }
+    }
+    .vc-weeks{
+        padding: 0 !important;
+        background-color: #F2F2F2;
+    }
+    .vc-day-content{
+        border-radius: unset;
+        &:hover{
+            background-color: #EDB8B8 !important;
+        }
+    }
+    .vc-weekday{
+        background-color: #fff;
+    }
+    .vc-rounded-lg{
+        border-radius: unset;
+    }
+    .vc-popover-content{
+        color: $primary;
+        background-color: $lightRed;
+        .vc-text-red-100{
+            color: $primary;
+        }
+    }
+}

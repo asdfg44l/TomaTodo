@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <loading :active.sync="isLoading"></loading>
+    <div>
+        <loading :active.sync="isLoading"></loading>
         <div class="mt-4">
             <div class="todoTitle">
                 <div class="row justify-content-between mb-3">
@@ -75,7 +75,7 @@
                 </div>
             </div> 
         </div> 
-   </div>
+    </div>
   
 </template>
 
@@ -153,9 +153,6 @@ export default {
             var str = dateArray[1] + ' ' + dateArray[3];
             return str;
         }
-    },
-    created() {
-        this.getTodo();
     },
 }
 </script>

@@ -1,12 +1,18 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 
+// modules
+import googleAuth from "./googleAuth";
+
 Vue.use(Vuex);
 
-// workList
-var todoRef = firebase.database().ref("/worklist/");
+
 export default new Vuex.Store({
     state:{
+        user: {
+            userName: '',
+            userID: ''
+        },
         todoList: {},
         isLoading: false,
         Valid:{
@@ -14,16 +20,16 @@ export default new Vuex.Store({
             message: '',
         },
         input:'',
+        todoRef: firebase.database(),
     },
     actions:{
         // get todo
         getTodo(context) {
             context.commit('ISLOADING', true);
-            todoRef.once("value").then(function(snapshot){
+            context.state.todoRef.ref(`${context.state.user.userID}`).once("value").then(function(snapshot){
                 var value = snapshot.val();   
                 return value;
             }).then((item) =>{
-                // vm.todoList = Object.assign({},item)
                 context.commit('TODOLIST', item);
             }).then(() => context.commit('ISLOADING', false));
         },
@@ -35,12 +41,14 @@ export default new Vuex.Store({
                 // 新增 timeStamp
                 var date = new Date();
                 var timeStamp = date.getTime();
-                todoRef.child(`${timeStamp}`).set({
+                context.state.todoRef.ref(`${context.state.user.userID}`).child(`${timeStamp}`).set({
                     timeStamp,
                     work: sendData,
                     isComplete: false
                 }).then(function(){
+                    // 清空輸入欄位
                     context.commit('INPUT', '')
+                    // 更新資料
                     context.dispatch('getTodo')
                 }).catch(function(error){
                     alert(error)
@@ -51,13 +59,13 @@ export default new Vuex.Store({
         },
         // remove todo
         removeTodo(context, status) {
-            todoRef.child(`${status}`).remove();
+            context.state.todoRef.ref(`${context.state.user.userID}`).child(`${status}`).remove();
             context.dispatch('getTodo');
         },
         // complete todo
         completeTodo(context, status) {
             // 將該筆資料更新為 complete
-            todoRef.child(`${status}`).update({
+            context.state.todoRef.ref(`${context.state.user.userID}`).child(`${status}`).update({
                 isComplete: true
             }).then(() => context.dispatch("getTodo"))
         }
@@ -75,11 +83,18 @@ export default new Vuex.Store({
         VALID(state, {inValid, message}){
             state.Valid.inValid = inValid;
             state.Valid.message = message;
+        },
+        USER(state, status) {
+            state.user = status;
         }
     },
     getters:{
         isLoading: state => state.isLoading,
         todoList: state => state.todoList,
         Valid: state => state.Valid,
+        user: state => state.user,
+    },
+    modules: {
+        googleAuth,
     }
 })

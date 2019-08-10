@@ -28,3 +28,18 @@ new Vue({
   render: h => h(App),
 }).$mount('#app')
 
+router.beforeEach((to, from, next) => {
+  //確認該分頁是否需要驗證
+  if(to.meta.requiresAuth){
+    //使用 api 來確認使用者是否已經登入
+    var user = firebase.auth().currentUser;
+    if(user) {
+      next();
+    }else {
+      console.log("尚未登入")
+      next({ path :"auth"})
+    }
+  }else{
+    next();
+  }
+})

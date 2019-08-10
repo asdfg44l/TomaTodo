@@ -37,7 +37,7 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-10">
-                        <router-view></router-view>
+                        <todo-list></todo-list>    
                     </div>
                 </div>   
             </div>
@@ -49,6 +49,7 @@
 <script>
 import timer from '../components/timer'
 import taskList from '../components/taskList'
+import todoList from '../components/todoList'
 
 import $ from "jquery";
 export default {
@@ -58,20 +59,24 @@ export default {
         }
     },
     mounted() {
-        const vm = this;
         $('.openBox').on("click", function(){
             $('.sideBox').toggleClass('active');
-            const path = "/" + $(this)[0].dataset.set;
-            vm.$router.push(path);
+            // dynamic components
         });
         $('.closeBox').on('click', function(){
             $('.sideBox').removeClass('active');
-        })
+        });
     },
     components: {
         timer,
-        taskList
-    }
+        taskList,
+        todoList
+    },
+    created() {
+        var data = JSON.parse(sessionStorage.getItem('user'));
+        this.$store.commit('USER', data);
+        this.$store.dispatch("getTodo");
+    },
 }
 </script>
 <style lang="scss" scope>

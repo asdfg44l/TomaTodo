@@ -3,14 +3,13 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-10">
-                <p class="currentTime mb-0">2019/8/2. Am 12:25</p>
-                <p class="completeCount mb-0 text-center">1/5 completed</p>
+                <p class="currentTime mb-0">{{ now | formatTime}}</p>
+                <p class="completeCount mb-0 text-center">{{ lenthData.completedLength }}/{{ lenthData.totalLength }} completed</p>
             </div>
         </div>   
         <div class="row mt-2">
             <div class="col-6">
-                <div class="tomato">
-                </div>
+                <tomato-clock></tomato-clock>
                 <timer></timer>
             </div>
             <div class="col-4 pt-5 ml-5">
@@ -50,12 +49,13 @@
 import timer from '../components/timer'
 import taskList from '../components/taskList'
 import todoList from '../components/todoList'
+import tomatoClock from '../components/tomatoClock'
 
 import $ from "jquery";
 export default {
     data() {
         return{
-
+            now: new Date(),
         }
     },
     mounted() {
@@ -70,10 +70,33 @@ export default {
     components: {
         timer,
         taskList,
-        todoList
+        todoList,
+        tomatoClock
+    },
+    computed: {
+        lenthData() {
+            var todoLength = Object.keys(this.$store.getters.todoList).length
+            var completedLength = Object.keys(this.$store.getters.completeList).length
+            var totalLength = todoLength + completedLength;
+            return { completedLength, totalLength };
+        },
+    },
+    filters: {
+        formatTime(time) {
+            var date = time.toLocaleDateString();
+            var hour = time.getHours();
+            var minutes = time.getMinutes();
+            var tag;
+            if( hour < 12) {
+                tag = 'Am'
+            }else {
+                tag = 'Pm'
+            }
+            return `${date} ${tag} ${hour}:${minutes}`
+        }
     },
     created() {
-        var data = JSON.parse(sessionStorage.getItem('user'));
+        var data = JSON.parse(localStorage.getItem('user'));
         this.$store.commit('USER', data);
         this.$store.dispatch("getTodo");
     },

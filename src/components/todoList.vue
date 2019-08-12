@@ -24,14 +24,7 @@
                     </div>
                 </div>       
             </div>
-            <div class="todoGroup input-group">
-                <input type="text" class="todoInput box-size-cancel form-control roboMono bg-secondary border-0" :disabled="Boolean(cacheKey)" v-model="input" @keyup.enter="addTodo" placeholder="Add new tasks">
-                <div class="input-group-append">
-                    <button class="todoInputBtn btn btn-secondary" @click="addTodo">
-                        <i class="fas fa-plus text-deepRed"></i>
-                    </button>
-                </div>
-            </div>
+            <todo-input :cacheKey="cacheKey"></todo-input>
             <p class="text-danger mb-0" v-if="Valid.inValid">{{ Valid.message }}</p>
             <div class="card border-0 my-4">
                 <div class="card-head p-3 bg-info">
@@ -42,11 +35,11 @@
                         <tr v-for="(todo, key) in todoList" :key="key">
                             <td class="todo border-0" width="250">
                                 <span class="font-weight-bold text-primary" :class="{'d-none': key == cacheKey}">{{ todo.work }}</span>
-                                <input type="text" v-if="key == cacheKey" @keyup.enter='updateTodo(key)' v-model="input">
+                                <input type="text" v-if="key == cacheKey" @keyup.enter='updateTodo(key)' v-model="editInput">
                             </td>
                             <td class="border-0">
                                 <div>
-                                    <button class="btn p-0 mr-3" type="button">
+                                    <button class="btn p-0 mr-3" type="button" @click="startTodo(key)">
                                         <i class="far fa-play-circle text-primary"></i>
                                     </button>
                                     <button class="btn p-0 mr-3" type="button" @click="removeTodo(key)">
@@ -67,8 +60,8 @@
                 </div>
                 <div class="card-body bg-lightRed p-0">
                     <table class="table mt-2">
-                        <tr>
-                            <td class="todo font-weight-bold text-primary border-0" width="160">mission</td>
+                        <tr v-for="item in completeList">
+                            <td class="todo font-weight-bold text-primary border-0" width="250">{{ item.work }}</td>
                             <td class="todo font-weight-bold text-primary border-0">25min</td>
                         </tr>
                     </table>
@@ -82,58 +75,53 @@
 
 <script>
 /* eslint-disable */
-var todoRef = firebase.database().ref("/worklist/");
 import { mapGetters } from 'vuex'
+import todoInput from './todoInput.vue'
+
 export default {
     data() {
         return {
-            input:'',
+            editInput:'',
             todoDate: new Date(),
-            cacheKey: '',
             // editMode: false
         }
+    },
+    components: {
+        todoInput
     },
     methods: {
         // get todo
         getTodo() {
             this.$store.dispatch("getTodo");
         },
-        // push todo
-        addTodo() {
-            this.$store.dispatch('addTodo', this.input);
-            this.input = '';
-        },
-        // edit todo
+        
+        // edit control 
         editTodo(key) {
-            if(this.cacheKey == key){
-                this.cacheKey = '';
-            }else{
-                this.cacheKey = key; 
-            }   
+            this.$store.dispatch("editTodo", key); 
         },
         // update todo
         updateTodo(key) {
-            this.cacheKey = '';
-            if(this.$store.state.Valid.inValid){
-                return;
-            }
-            todoRef.child(key).update({
-                work: this.input,
-            }).then(() => this.$store.dispatch("getTodo"))  
-            this.input = ''; 
+            const vm = this;
+            const userInput = vm.editInput;
+            vm.$store.dispatch('updateTodo', {key, userInput}).then( () => {
+                vm.editInput = ''; 
+            })    
         },
         // remove todo
         removeTodo(id) {
             this.$store.dispatch("removeTodo", id);
+        },
+        startTodo(id) {
+            this.$store.dispatch("completeTodo", id);
         }
     },
     computed: {
-        ...mapGetters(["isLoading", "todoList", 'Valid'])
+        ...mapGetters(["isLoading", "todoList", "completeList", 'Valid', 'cacheKey'])
     },
     watch: {
-        input(){
+        editInput(){
             var re = /[^\a-\z\A-\Z0-9\u4E00-\u9FA5\@\.]/g
-            if(re.test(this.input)){
+            if(re.test(this.editInput)){
                 this.$store.commit('VALID', { inValid:true, message:"格式不符"})
             }else{
                 this.$store.commit('VALID', { inValid:false, message:""})

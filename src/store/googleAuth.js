@@ -16,7 +16,8 @@ export default {
 
                 // 登記資料
                 const {displayName : userName,  uid: userID  } = user;
-                commit('USER', {userName, userID})
+                commit('USER', {userName, userID});
+                localStorage.setItem('user', JSON.stringify({userName, userID}));
 
                 // 驗證帳戶姓名
                 var IDRef = firebase.database().ref("/identity/");
@@ -46,17 +47,17 @@ export default {
                     return err;
                 })
         },
-        getCurrentUser({ commit }) {  
-            const user = firebase.auth().currentUser;
-            if(user) {
-                const {displayName : userName,  uid: userID  } = user;
-                commit('USER', {userName, userID})
-                sessionStorage.setItem('user', JSON.stringify({userName, userID}));
-            }else {
-                console.log('未登入')
-                return "";
-            }    
-        },
+        // getCurrentUser({ commit }) {  
+        //     const user = firebase.auth().currentUser;
+        //     if(user) {
+        //         const {displayName : userName,  uid: userID  } = user;
+        //         commit('USER', {userName, userID})
+        //         sessionStorage.setItem('user', JSON.stringify({userName, userID}));
+        //     }else {
+        //         console.log('未登入')
+        //         return "";
+        //     }    
+        // },
     },
     mutations: {
 

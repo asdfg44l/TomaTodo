@@ -5,6 +5,7 @@ import Router from 'vue-router'
 import index from "@/views/index"
 // import auth from "@/views/authorization"
 import auth from "@/views/test"
+import rwd from "@/views/rwdtest"
 
 // component
 import todolist from "@/components/todoList"
@@ -22,6 +23,11 @@ export default new Router({
             path: '/auth',
             name: 'auth',
             component: auth,
+        },
+        {
+            path: '/rwd',
+            name: 'rwd',
+            component: rwd,
         },
         {
             path: '/index',

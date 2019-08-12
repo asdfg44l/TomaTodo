@@ -1,0 +1,112 @@
+.outer{
+    position: relative;
+    margin-top: 100px;
+  }
+  .tomatoWrap{
+    position: relative;
+  }
+  .spinBorder{
+    position: relative;
+    box-sizing:border-box;
+    margin: 0 auto;
+    width: 210px;
+    height: 210px;
+    border: 35px solid #F15353;
+    border-radius: 50%;
+    border-right-color: #FEE7E7;
+    opacity: .5;
+    z-index: 7;
+    &.animation{
+        animation: spin 3s infinite linear;
+    };
+  }
+  .tomatoClock{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 150px;
+    height: 150px;
+    border-radius: 50%; 
+    background-color: #E96D6D;
+    z-index: 8;
+  }
+  .minuteHand, .hourHand{
+    position: absolute;
+    left: 50%;
+    top: 49%;
+    transform-origin: 1px 50%;
+    transform: rotate(-90deg);
+    width: 50px;
+    height: 6px;
+    border-radius: 25px;
+    background-color: red;
+    z-index: 10;
+  }
+  .hourHand{
+    width: 40px;
+    border-radius:20px;
+    transform: rotate(-40deg);
+    background-color: #FF1744;
+  }
+  
+  @keyframes spin {
+        from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
+  }
+  
+  .tomatoLeaf{
+    .ovalWrap{
+    position: absolute;
+    width: 60px;
+    height: 10px;
+    overflow: hidden;
+    .halfOval{
+      width: 100%;
+      height: 30px;
+      border-radius:50%;
+      background-color:#B18686;
+    }
+  }
+    .oval1{
+      top: -11%;
+      left: 40%;
+      transform:rotate(-150deg);
+    }
+    .oval2{
+      width: 36px;
+      height: 8px;
+      top: -16%;
+      left: 48%;
+      transform:rotate(100deg);
+      .halfOval{
+        width: 100%;
+        height: 18px;
+        border-radius:50%;
+        background-color:#B18686;
+      }
+    }
+    .oval3{
+      top: -12%;
+      left: 50%;
+      transform:rotate(150deg);
+    }
+  }
+  
+  .tomaSlogan{
+    position: absolute;
+    top: -18%;
+    left: 20%;
+    text-align: right;
+    &.slogan1{
+      transform: rotate(30deg);
+    }
+    &.slogan2{
+      top: 5%;
+      left: 23%;
+    }
+  }
